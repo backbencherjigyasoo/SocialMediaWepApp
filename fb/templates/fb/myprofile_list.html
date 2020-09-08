@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Friends
+{% endblock title %}
+{%load crispy_forms_tags %}
+
+{%block body%}
+<style>
+    .img-fluid {
+        border-radius: 1000px;
+        height: 100px;
+        width: 100px;
+
+    }
+</style>
+<div class="container col-sm-8 offset-sm-1">
+    <div class="display-2">Profiles</div>
+    <br><br>
+
+    <form class="form-inline" method='GET'>
+        <!-- {% csrf_token %} -->
+        <input class="form-control" type="text" name="si" value="{{request.GET.si}} " placeholder="Search" /><br>
+        <input class="btn btn-outline-success btn-sm mx-3" type="submit" value="Search" />
+        <a href="/fb/myprofile/update/{{user.myprofile.id}}" class="btn btn-outline-primary btn-sm">Edit Profile</a>
+
+
+    </form><br>
+    
+    
+    <table class="table my-3">
+        <thead class="thead dark">
+            <tr>
+                <th>Face</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Details <i class="fa fa-angle-down" aria-hidden="true"></i></th>
+            </tr>
+        </thead>
+
+        {%for m in myprofile_list%}
+        <tbody>
+            <tr>
+                {% if m.profile_pic == '' %}
+                <td>No image available</td>
+                {% else %}
+                <td><a href="/fb/myprofile/detail/{{m.id}}"><img class="img-fluid" src="/media/{{m.profile_pic}}"></a>
+                </td>
+                {% endif %}
+                <td>{{m.name}}</td>
+                <td>{{m.age}}</td>
+                <td>{{m.gender}}</td>
+                <td><a class="btn btn-warning btn-sm" href="/fb/myprofile/detail/{{m.id}}">Check Profile</a>
+                    
+                    
+                    {% if m.followed %}
+                    <a class="btn btn-danger btn-sm" href="/fb/myprofile/unfollow/{{m.id}}">Unfollow</a>
+                    {% else %}
+                    <a class="btn btn-primary btn-sm" href="/fb/myprofile/follow/{{m.id}}">Follow</a>
+                    {% endif %}
+                </td>
+
+
+            </tr>
+        </tbody>
+        {% endfor%}
+
+    </table>
+
+
+</div>
+
+{%endblock body %}

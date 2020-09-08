@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title%}
+Confirm Delete
+{% endblock title%}
+
+{% block body%}
+<div class="container">
+    <div class="display-2">Are you sure you want to delete?</div>
+    <form action="" method="POST">
+        {% csrf_token %}
+    
+    <input type="submit" value="Yes" class="btn btn-outline-danger">
+    <a href="/fb/mypost/" class="btn btn-outline-success">No</a>
+    </form>
+    
+    
+</div>
+{% endblock body%}

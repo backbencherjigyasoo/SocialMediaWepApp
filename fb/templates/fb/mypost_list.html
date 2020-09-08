@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}
+My Posts
+{% endblock title %}
+
+
+
+{% block body %}
+<div class="container my-5">
+        <div class="display-2">My Feeds
+            <a href="/fb/mypost/create" class="btn btn-success">Create Post</a>
+            
+        </div>
+        <form class="form-inline my-3" action="" method="GET">
+            <input type="text" name='si' class="form-control">
+            <input type="submit" value="Search" class="btn btn-outline-success mx-2">
+        </form>
+    {% for m in mypost_list %}
+    <div class="card my-5">
+        <a href="/fb/mypost/detail/{{m.id}}"><img id="myimg" class="card-img-top img img-fluid w-100 h-100"  src="/media/{{m.pic}}" style="height: 150; width: 200;"></a>
+        <div class="card-body">
+            <h3 class="card-title">{{request.user}}</h3>
+            <h5 class="card-title text-muted">{{m.subject}}</h5>
+            <p class="card-text text-muted">{{m.cr_date}}</p>
+            {% if request.user %}
+            <a href="/fb/mypost/update/{{m.id}}" class="btn btn-outline-success">Edit</a>
+            <a href="/fb/mypost/delete/{{m.id}}" class="btn btn-outline-danger">Delete</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock body %}

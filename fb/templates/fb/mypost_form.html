@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+My Posts
+{% endblock title %}
+
+
+
+{% block body %}
+<div class="container my-5 col-sm-6">
+        <div class="display-2">Make your Feeds </div>
+
+    {% if form %}
+    
+        <form class="my-5" action="" method="POST" enctype="multipart/form-data">
+            {{form|crispy}}
+            {% csrf_token %}
+            <input type="submit" value="Save" class="btn btn-outline-primary">
+            
+        </form>
+    
+    {% endif%}
+</div>
+{% endblock body %}

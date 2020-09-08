@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Post Details
+{% endblock title %}
+
+
+
+{% block body %}
+<div class="container my-5">
+    <div class="display-2">Post Details</div>
+    
+    <div class="card my-5" >
+        <h2 class="card-title"><u>{{request.user}}</u></h2>
+        <p class="card-text text-muted">{{mypost.cr_date}}</p>
+
+        <img id="myimg" class="card-img-top img img-fluid w-100 h-100"  src="/media/{{mypost.pic}}" style="height: 150; width: 200;">
+        <div class="card-body">
+            <h3 class="card-title">{{mypost.subject}}</h3>
+            <p class="card-text">{{mypost.msg}}</p>
+        </div>
+    </div>
+    
+</div>
+{% endblock body %}

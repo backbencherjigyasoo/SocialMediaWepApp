@@ -1,0 +1,96 @@
+{%extends 'base.html'%}
+
+{% block title %}
+Home
+{% endblock title %}
+
+{% block body %}
+<div class="container col-sm-6 offset-sm-3">
+        <div class="display-2">Feeds</div>
+        <br><br>
+
+        <form class="form-inline" method='GET'>
+                <!-- {% csrf_token %} -->
+                <input class="form-control" type="text" name="search_item" /><br>
+                <input class="btn btn-outline-primary mx-3" type="submit" />
+                <a class="btn btn-outline-primary" href="/fb/mypost/create/"><i class="fa fa-plus-circle"
+                                aria-hidden="true"></i>Create New</a>
+
+        </form>
+
+        <br>
+        {%for m in mypost_list%}
+        <div class="card my-4 ">
+                <h4 class="card-title  text-dark mx-3 my-2">{{m.uploaded_by}}</h4>
+                <a href="/fb/mypost/detail/{{m.id}}"><img class="card-img-top" src="/media/{{m.pic}}"></a>
+                <div class="card-body">
+                        <h5 class="card-title  text-dark">{{m.subject}}</h5>
+
+                        <p class="card-text  text-dark">{{m.cr_date}}</p>
+
+                        {% if m.likecount == 0 %}
+                        <p class="card-text  text-dark"></p>
+                        {% elif m.likecount == 1 %}
+                        <p class="card-text  text-dark">{{m.likecount}} Like</p>
+                        {% elif m.likecount > 1 %}
+                        <p class="card-text  text-dark">{{m.likecount}} Likes</p>
+                        {% endif %}
+
+                        {% if m.liked %}
+                        <a class="btn btn-danger" href="/fb/mypost/unlike/{{m.id}}"><i class="fa fa-thumbs-o-down"
+                                        aria-hidden="true"></i></a>
+                        {% else %}
+                        <a class="btn btn-primary" href="/fb/mypost/like/{{m.id}}"><i class="fa fa-thumbs-o-up"
+                                        aria-hidden="true"></i></a>
+
+                        {% endif %}
+                        <a href="/fb/postcomment/create/{{m.id}}" class="btn btn-success" data-toggle='modal'
+                                data-target='#postModal'>Comment</a>
+                        <!-- Modal for the posting comment goes here -->
+                        <div class="modal fade" id="postModal" tabindex="-1" role="dialog"
+                                aria-labelledby="postModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                        <div class="modal-content">
+                                                <div class="modal-header">
+                                                        <h5 class="modal-title" id="postModalLabel">Post Comment</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                        <form action="/fb/mypost/comment/{{user.myprofile.id}}"
+                                                                method="GET">
+                                                                <div class="form-group">
+                                                                        <label
+                                                                                for="exampleFormControlTextarea1"></label>
+                                                                        <textarea class="form-control"
+                                                                                id="exampleFormControlTextarea1"
+                                                                                name="comment" rows="3"></textarea>
+                                                                </div>
+                                                                <input type="submit" value="comment"
+                                                                        class="btn btn-outline-success">
+                                                        </form>
+                                                </div>
+
+                                        </div>
+                                </div>
+                        </div>
+                       
+                        
+                       <a href="/fb/mypost/viewcomment/{{m.id}}">View comments</a>
+                        {% for c in comment %}
+                         {{c.msg}} <br>
+                         {{c.cr_date}} <br>
+                         {{c.commented_by}}
+                         {% endfor %}
+                       
+                        {% if user.myprofile %}
+                        <a class="btn btn-danger my-2" href="/fb/mypost/delete/{{m.id}}"><i class="fa fa-trash"
+                                        aria-hidden="true"></i></a>
+                        {% endif %}
+                </div>
+        </div>
+        {% endfor%}
+        
+        {% endblock body %}
